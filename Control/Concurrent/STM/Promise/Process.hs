@@ -113,10 +113,10 @@ processPromiseCallback callback cmd args input = do
 -- from http://stackoverflow.com/questions/8820903
 terminateProcess9 :: ProcessHandle -> IO ()
 terminateProcess9 ph = do
-#if __GLASGOW_HASKELL__ >= 708
-    let ProcessHandle pmvar _ = ph
+#if MIN_VERSION_process(1,6,0)
+    let ProcessHandle pmvar _ _ = ph
 #else
-    let ProcessHandle pmvar = ph
+    let ProcessHandle pmvar _ = ph
 #endif
     posixh <- readMVar pmvar
     case posixh of
